@@ -1,0 +1,156 @@
+<https://2526-ldsw-g9.github.io/RDF/University.rdf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Ontology> .
+# 
+# 
+# #################################################################
+# #
+# #    Object Properties
+# #
+# #################################################################
+# 
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#studies
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#studies> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#studies> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/2002/07/owl#topObjectProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#studies> <http://www.w3.org/2000/01/rdf-schema#domain> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Student> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#studies> <http://www.w3.org/2000/01/rdf-schema#range> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Module> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#teaches
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teaches> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teaches> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/2002/07/owl#topObjectProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teaches> <http://www.w3.org/2000/01/rdf-schema#domain> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Teacher> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teaches> <http://www.w3.org/2000/01/rdf-schema#range> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Module> .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Data properties
+# #
+# #################################################################
+# 
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#StudentId
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#StudentId> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#StudentId> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/2002/07/owl#topDataProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#StudentId> <http://www.w3.org/2000/01/rdf-schema#domain> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Student> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#StudentId> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#int> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#first_name
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#first_name> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#first_name> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/2002/07/owl#topDataProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#first_name> <http://www.w3.org/2000/01/rdf-schema#domain> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Person> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#first_name> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#last_name
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#last_name> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#last_name> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/2002/07/owl#topDataProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#last_name> <http://www.w3.org/2000/01/rdf-schema#domain> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Person> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#last_name> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#string> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#staffId
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#staffId> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#staffId> <http://www.w3.org/2000/01/rdf-schema#subPropertyOf> <http://www.w3.org/2002/07/owl#topDataProperty> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#staffId> <http://www.w3.org/2000/01/rdf-schema#domain> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Teacher> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#staffId> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#int> .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Classes
+# #
+# #################################################################
+# 
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#CSModule
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#CSModule> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#CSModule> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Module> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#MathModule
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#MathModule> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#MathModule> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Module> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#Module
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#Module> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#Person
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#Person> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#Student
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#Student> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#Student> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Person> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#Teacher
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#Teacher> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#Teacher> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Person> .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Individuals
+# #
+# #################################################################
+# 
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#LDSW
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#LDSW> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#LDSW> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://2526-ldsw-g9.github.io/RDF/University.rdf#CSModule> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#student1
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Student> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student1> <https://2526-ldsw-g9.github.io/RDF/University.rdf#studies> <https://2526-ldsw-g9.github.io/RDF/University.rdf#LDSW> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student1> <https://2526-ldsw-g9.github.io/RDF/University.rdf#StudentId> "1337"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student1> <https://2526-ldsw-g9.github.io/RDF/University.rdf#first_name> "Stefan" .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student1> <https://2526-ldsw-g9.github.io/RDF/University.rdf#last_name> "Bussemaker" .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#student2
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Student> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student2> <https://2526-ldsw-g9.github.io/RDF/University.rdf#studies> <https://2526-ldsw-g9.github.io/RDF/University.rdf#LDSW> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student2> <https://2526-ldsw-g9.github.io/RDF/University.rdf#StudentId> "42"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student2> <https://2526-ldsw-g9.github.io/RDF/University.rdf#first_name> "Charlotte" .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#student2> <https://2526-ldsw-g9.github.io/RDF/University.rdf#last_name> "Wang" .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher1
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Teacher> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher1> <https://2526-ldsw-g9.github.io/RDF/University.rdf#teaches> <https://2526-ldsw-g9.github.io/RDF/University.rdf#LDSW> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher1> <https://2526-ldsw-g9.github.io/RDF/University.rdf#first_name> "Luiz" .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher1> <https://2526-ldsw-g9.github.io/RDF/University.rdf#last_name> "Bonino" .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher1> <https://2526-ldsw-g9.github.io/RDF/University.rdf#staffId> "6403"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+# 
+# https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher2
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#NamedIndividual> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Teacher> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher2> <https://2526-ldsw-g9.github.io/RDF/University.rdf#teaches> <https://2526-ldsw-g9.github.io/RDF/University.rdf#LDSW> .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher2> <https://2526-ldsw-g9.github.io/RDF/University.rdf#first_name> "Luís" .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher2> <https://2526-ldsw-g9.github.io/RDF/University.rdf#last_name> "Ferreira Pires" .
+<https://2526-ldsw-g9.github.io/RDF/University.rdf#teacher2> <https://2526-ldsw-g9.github.io/RDF/University.rdf#staffId> "3843"^^<http://www.w3.org/2001/XMLSchema#integer> .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    General axioms
+# #
+# #################################################################
+# 
+# 
+_:genid1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AllDisjointClasses> .
+_:genid1 <http://www.w3.org/2002/07/owl#members> _:genid5 .
+_:genid5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid4 .
+_:genid4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid3 .
+_:genid3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> _:genid2 .
+_:genid2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+_:genid2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Teacher> .
+_:genid2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://2526-ldsw-g9.github.io/RDF/University.rdf#Student> .
+_:genid3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://2526-ldsw-g9.github.io/RDF/University.rdf#MathModule> .
+_:genid4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+_:genid5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> <https://2526-ldsw-g9.github.io/RDF/University.rdf#CSModule> .
+_:genid5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .
+# 
+# Generated by the OWL API (version 5.1.18) https://github.com/owlcs/owlapi/

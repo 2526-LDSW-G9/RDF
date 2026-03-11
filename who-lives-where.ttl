@@ -1,0 +1,107 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dwc: <http://rs.tdwg.org/dwc/terms/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix wlw: <https://2526-ldsw-g9.github.io/RDF/who-lives-where.ttl#> .
+
+wlw:0 dcterms:publisher "Waarneming.nl" ;
+    dwc:behavior "ter plaatse"@nl ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Schimmels"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Piptoporus betulinus" ;
+    dwc:vernacularName "Berkenzwam"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.132662743, 52.200380854], [7.081791398, 52.129648453], [6.96466838, 52.101669048], [6.849626902, 52.132757266], [6.803807068, 52.204786496], [6.854324625, 52.275638865], [6.97183885, 52.303725313], [7.087234115, 52.272517127], [7.132662743, 52.200380854]]]}"^^geo:geoJSONLiteral .
+
+wlw:1 dcterms:publisher "Telmee.nl" ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Dagvlinders"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Maniola jurtina" ;
+    dwc:vernacularName "Bruin zandoogje"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.101893311, 52.245752813], [7.101873229, 52.245720699], [7.101822034, 52.245706707], [7.101769717, 52.245719034], [7.101746922, 52.245750458], [7.101767004, 52.245782572], [7.101818198, 52.245796564], [7.101870516, 52.245784237], [7.101893311, 52.245752813]]]}"^^geo:geoJSONLiteral .
+
+wlw:10 dcterms:publisher "Telmee.nl" ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Vogels"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Oriolus oriolus" ;
+    dwc:vernacularName "Wielewaal"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.069675876, 52.206096092], [7.215909289, 52.203920741], [7.219605819, 52.293761238], [7.073077143, 52.295942276], [7.069675876, 52.206096092]]]}"^^geo:geoJSONLiteral .
+
+wlw:2 dcterms:publisher "Telmee.nl" ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Zoogdieren (overig)"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Sciurus vulgaris" ;
+    dwc:vernacularName "Eekhoorn"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.101614308, 52.244468213], [7.101594227, 52.244436099], [7.101543035, 52.244422107], [7.101490718, 52.244434434], [7.101467924, 52.244465858], [7.101488006, 52.244497972], [7.101539198, 52.244511964], [7.101591515, 52.244499637], [7.101614308, 52.244468213]]]}"^^geo:geoJSONLiteral .
+
+wlw:3 dcterms:publisher "Telmee.nl" ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Dagvlinders"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Ochlodes sylvanus" ;
+    dwc:vernacularName "Groot dikkopje"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.102047212, 52.246592113], [7.10202713, 52.246559999], [7.101975934, 52.246546007], [7.101923616, 52.246558334], [7.101900821, 52.246589758], [7.101920903, 52.246621872], [7.101972099, 52.246635864], [7.102024417, 52.246623537], [7.102047212, 52.246592113]]]}"^^geo:geoJSONLiteral .
+
+wlw:4 dcterms:publisher "Telmee.nl" ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Vaatplanten"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Melampyrum pratense" ;
+    dwc:vernacularName "Hengel"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.101143531, 52.243767542], [7.101131483, 52.243748274], [7.101100768, 52.243739879], [7.101069378, 52.243747275], [7.101055702, 52.243766129], [7.10106775, 52.243785397], [7.101098465, 52.243793793], [7.101129855, 52.243786397], [7.101143531, 52.243767542]]]}"^^geo:geoJSONLiteral .
+
+wlw:5 dcterms:publisher "Telmee.nl" ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Dagvlinders"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Limenitis camilla" ;
+    dwc:vernacularName "Kleine ijsvogelvlinder"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.102064129, 52.246554219], [7.102031997, 52.246502837], [7.101950085, 52.246480451], [7.101866375, 52.246500173], [7.101829904, 52.246550452], [7.101862035, 52.246601834], [7.101943948, 52.246624221], [7.102027658, 52.246604498], [7.102064129, 52.246554219]]]}"^^geo:geoJSONLiteral .
+
+wlw:6 dcterms:publisher "Telmee.nl" ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Dagvlinders"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Pieris napi" ;
+    dwc:vernacularName "Klein geaderd witje"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.101656171, 52.245187778], [7.101640106, 52.245162086], [7.101599151, 52.245150893], [7.101557297, 52.245160754], [7.101539062, 52.245185894], [7.101555127, 52.245211585], [7.101596082, 52.245222778], [7.101637936, 52.245212917], [7.101656171, 52.245187778]]]}"^^geo:geoJSONLiteral .
+
+wlw:7 dcterms:publisher "Telmee.nl" ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Vogels"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Milvus milvus" ;
+    dwc:vernacularName "Rode wouw"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.069675876, 52.206096092], [7.215909289, 52.203920741], [7.219605819, 52.293761238], [7.073077143, 52.295942276], [7.069675876, 52.206096092]]]}"^^geo:geoJSONLiteral .
+
+wlw:8 dcterms:publisher "Waarneming.nl" ;
+    dwc:behavior "ter plaatse"@nl ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Schimmels"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Amanita muscaria" ;
+    dwc:vernacularName "Vliegenzwam"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.151407866, 52.200102103], [7.094714039, 52.121312701], [6.964261853, 52.090149957], [6.836126182, 52.12477515], [6.785057436, 52.205010056], [6.841312199, 52.283948341], [6.972249886, 52.315243929], [7.10082462, 52.280469852], [7.151407866, 52.200102103]]]}"^^geo:geoJSONLiteral .
+
+wlw:9 dcterms:publisher "Waarneming.nl" ;
+    dwc:behavior "ter plaatse"@nl ;
+    dwc:individualCount "1" ;
+    dwc:kingdom "Schimmels"@nl ;
+    dwc:measurementMethod "onbekend" ;
+    dwc:samplingProtocol "onbekend" ;
+    dwc:scientificName "Amanita muscaria" ;
+    dwc:vernacularName "Vliegenzwam"@nl ;
+    geo:geometry "{'type': 'Polygon', 'coordinates': [[[7.19035742, 52.186810774], [7.115836555, 52.083301181], [6.944588246, 52.042353821], [6.77633778, 52.087793972], [6.709109631, 52.193183814], [6.78287242, 52.296950235], [6.954957992, 52.338127067], [7.123966532, 52.292430083], [7.19035742, 52.186810774]]]}"^^geo:geoJSONLiteral .
+
