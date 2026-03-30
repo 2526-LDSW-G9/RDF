@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@triply/yasgui@4.2.28/build/yasgui.min.css"
         integrity="sha256-A3GoNEwLxNgSgJId9TfBhs0z2v/yQGs2SMODxITPBK4=" crossorigin="anonymous">
 
-
     <!-- Leaflet -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js"></script>
@@ -203,6 +202,31 @@
             font-size: 1.15rem;
             font-style: italic;
             color: var(--moss);
+            margin: 0;
+        }
+
+        /* Callout box */
+        .callout {
+            border: 1px solid var(--rule);
+            border-left: 3px solid var(--sage);
+            background: var(--cream);
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .callout-label {
+            font-family: 'DM Mono', monospace;
+            font-size: .65rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--sage);
+            margin-bottom: .5rem;
+        }
+
+        .callout p {
+            font-size: .95rem;
+            color: var(--ink);
             margin: 0;
         }
 
@@ -401,12 +425,12 @@
     <div class="hero">
         <div>
             <p class="hero-eyebrow">Field Notes from the Knowledge Graph</p>
-            <h1>Observations<br>of <em>Wild&shy;life</em><br>in the Open</h1>
+            <h1>Owls, Bats &amp;<br><em>Building</em><br>Permits</h1>
         </div>
         <div class="hero-meta">
-            Endpoint<br>
-            <strong style="color:var(--sage);font-family:'DM Mono',monospace;font-size:.7rem;">wlw
-                dataset</strong><br><br>
+            Region<br>
+            <strong style="color:var(--sage);font-family:'DM Mono',monospace;font-size:.7rem;">Twente,
+                NL</strong><br><br>
             Standards<br>
             DWC · GeoSPARQL<br>
             Wikidata Federation
@@ -417,21 +441,23 @@
 
         <div class="prose">
             <p>
-                This data story explores a linked dataset of <strong>wildlife occurrence observations</strong>,
-                combining local biodiversity records with taxonomic knowledge from Wikidata.
-                Each query below is live — results are fetched directly from the triple store.
+                In the Netherlands, nature is not just a backdrop to urban development — it is a legal constraint on it.
+                Under the <strong>Wet natuurbescherming</strong> (Nature Protection Act), the presence of protected
+                species
+                in or around a building site can halt a project entirely, or require costly mitigation before a permit
+                is granted. Two groups of species are especially consequential in Twente:
+                <strong>owls</strong> (Strigiformes) and <strong>bats</strong>, in particular the
+                <em>Gewone dwergvleermuis</em> (<em>Pipistrellus pipistrellus</em>).
             </p>
             <p>
-                The dataset uses the <a href="https://dwc.tdwg.org/" target="_blank">Darwin Core vocabulary</a>
-                (<code style="font-family:'DM Mono',monospace;font-size:.85em;">dwc:</code>) for occurrence records,
-                and <a href="https://www.ogc.org/standards/geosparql" target="_blank">GeoSPARQL</a>
-                for geometries — enabling spatial queries over observation locations.
-                Taxonomic lineage is resolved at query time via a <strong>federated SERVICE call</strong> to Wikidata.
+                This data story queries a linked biodiversity dataset of occurrence records from Twente,
+                federating with <strong>Wikidata</strong> to resolve taxonomic lineage.
+                Each query is live — results are fetched directly from the triple store and plotted on the map below.
             </p>
         </div>
 
         <div class="pull-quote">
-            <p>"Each triple is a fact. Each query is a question posed to the accumulated memory of a landscape."</p>
+            <p>"A bat roosting in a cavity wall is not an inconvenience — it is a legally protected resident."</p>
         </div>
 
         <div class="section-label">
@@ -478,28 +504,40 @@
 
         <hr class="rule">
 
+        <!-- ── Query 1: Owls ── -->
         <div class="section-label">
             <span class="section-number">1</span>
-            <h2 class="section-heading">Occurrences with Geometry — Federated via Wikidata</h2>
+            <h2 class="section-heading">Owl Sightings in Twente — Strigiformes</h2>
         </div>
 
         <div class="prose">
             <p>
-                This query retrieves up to 300 wildlife occurrence records, each with a <strong>Dutch vernacular
-                    name</strong>,
-                an observation date, and a <strong>GeoJSON geometry</strong>. It federates with Wikidata
-                to resolve the taxon's scientific name — linking local records to the global taxonomic graph.
-                Results cover taxa descending from <strong>Q176901</strong> (Squamata — scaled reptiles).
+                Strigiformes — the order of owls — are strictly protected under both Dutch law and the
+                European Habitats Directive. Species such as the <em>Kerkuil</em> (barn owl) and
+                <em>Ransuil</em> (long-eared owl) frequently roost in agricultural buildings, church towers,
+                and woodland edges. A confirmed nesting site within a development zone can trigger a
+                mandatory ecological survey and, in many cases, a multi-year delay.
             </p>
             <p>
-                After running the query, switch to the <strong>🗺 Map tab</strong> to see all observations
-                plotted on an OpenStreetMap base layer. Click any marker to see the species name.
+                The query below retrieves all owl occurrence records from the dataset, cross-referencing
+                Wikidata to resolve Dutch, English, Chinese, and Kannada common names.
+                Results are deduplicated on vernacular name — use the table to browse species,
+                and the map to explore the spatial distribution of sightings.
+            </p>
+        </div>
+
+        <div class="callout">
+            <div class="callout-label">Wikidata · Q25222</div>
+            <p>
+                <strong>Strigiformes</strong> — the owl order. The query traverses
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wdt:P171*</code>
+                (parent taxon, transitive) to capture all species within this clade present in the dataset.
             </p>
         </div>
 
         <div class="query-block">
             <div class="query-block-header">
-                <span class="query-block-title">Query 1 · Occurrences + Geometry + Wikidata Federation</span>
+                <span class="query-block-title">Query 1 · Owl Occurrences — Strigiformes (Q25222)</span>
                 <span class="query-block-endpoint">wlw/sparql</span>
             </div>
             <div class="yasgui-wrap" id="yasgui1"></div>
@@ -509,28 +547,122 @@
 
         <div class="prose">
             <p>
-                Each marker represents a georeferenced wildlife observation. The underlying geometry is stored
-                as <strong>GeoJSON</strong> via <code
-                    style="font-family:'DM Mono',monospace;font-size:.85em;">geo:asGeoJSON</code>,
-                and rendered here using <a href="https://leafletjs.com" target="_blank">Leaflet</a> with
-                an OpenStreetMap tile layer.
+                The results show the distinct owl species recorded in the area. Because this query uses
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">SELECT DISTINCT</code>
+                on vernacular names rather than individual occurrences, it gives a clean species inventory
+                rather than a point cloud — useful for a first assessment of which taxa are present.
+            </p>
+        </div>
+
+        <hr class="rule">
+
+        <!-- ── Query 2: Bats ── -->
+        <div class="section-label">
+            <span class="section-number">2</span>
+            <h2 class="section-heading">Dwergvleermuis Sightings — The Bat That Blocks Planning</h2>
+        </div>
+
+        <div class="prose">
+            <p>
+                The <em>Gewone dwergvleermuis</em> (<em>Pipistrellus pipistrellus</em>) is the most common bat
+                in the Netherlands, with an estimated population of 300,000 to 600,000 individuals.
+                Despite its abundance, it is <strong>fully protected</strong> under the Wet natuurbescherming —
+                and its preference for roosting in cavity walls, roof spaces, and building joints makes it
+                a routine obstacle in urban development and renovation projects throughout Twente.
+            </p>
+            <p>
+                Any construction or demolition work that could disturb a roost requires a species survey
+                and, if bats are present, an exemption (<em>ontheffing</em>) from the provincial authority.
+                This process typically takes several months and may require compensatory measures such as
+                installing bat boxes or redesigning the building envelope.
+            </p>
+            <p>
+                The query below retrieves all <em>Chiroptera</em> (bat) occurrences from the dataset —
+                specifically those under Wikidata entity <strong>Q176901</strong> — with their georeferenced
+                observation points. Switch to the <strong>🗺 Map tab</strong> to see where in Twente
+                bat activity has been recorded.
+            </p>
+        </div>
+
+        <div class="callout">
+            <div class="callout-label">Wikidata · Q176901</div>
+            <p>
+                <strong>Chiroptera</strong> — the bat order. All species in this clade recorded as
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">dwc:Occurrence</code>
+                in the dataset are included, joined on
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">dwc:scientificName</code>
+                via the Wikidata federation.
+            </p>
+        </div>
+
+        <div class="query-block">
+            <div class="query-block-header">
+                <span class="query-block-title">Query 2 · Bat Occurrences with Geometry — Chiroptera (Q176901)</span>
+                <span class="query-block-endpoint">wlw/sparql</span>
+            </div>
+            <div class="yasgui-wrap" id="yasgui2"></div>
+        </div>
+
+        <div class="ornament">· · ·</div>
+
+        <div class="prose">
+            <p>
+                Each point on the map represents a georeferenced bat observation. Clusters of sightings
+                near built-up areas are particularly significant from a planning perspective — these are
+                precisely the locations where roost surveys would be required before any
+                demolition or renovation permit could be issued.
+            </p>
+            <p>
+                The <strong>GeoJSON geometry</strong> for each occurrence is stored via
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">geo:hasGeometry/geo:asGeoJSON</code>
+                and rendered here using <a href="https://leafletjs.com" target="_blank">Leaflet</a>
+                with an OpenStreetMap base layer.
             </p>
         </div>
 
     </main>
 
     <footer>
-        <span>Wildlife Linked Data · SPARQL Data Story</span>
+        <span>Wildlife Linked Data · Data Story · Twente</span>
         <span>Darwin Core · GeoSPARQL · Wikidata</span>
     </footer>
 
     <script type="module">
         import GeoPlugin from 'https://esm.sh/yasgui-geo-tg?bundle&no-css';
+
+        // ── Register geo plugin ──────────────────────────────────────────────────
         Yasgui.Yasr.registerPlugin('geo', GeoPlugin);
 
-        const ENDPOINT = "https://fuseki-blob.orangewater-ddd174cb.swedencentral.azurecontainerapps.io/wlw/";
+        const ENDPOINT = "https://fuseki-blob.orangewater-ddd174cb.swedencentral.azurecontainerapps.io/wlw/sparql";
 
+        // ── Query 1: Owls (Strigiformes, Q25222) — species inventory ────────────
         const QUERY_1 = `PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wd:  <http://www.wikidata.org/entity/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?commonNameNl ?commonNameEn ?commonNameZh ?commonNameKn
+WHERE {
+  SERVICE <https://query.wikidata.org/sparql> {
+    SELECT ?taxon ?name ?commonNameEn ?commonNameZh ?commonNameKn WHERE {
+      ?taxon wdt:P171* wd:Q25222 ;
+             wdt:P225 ?name .
+      OPTIONAL { ?taxon rdfs:label ?commonNameEn . FILTER(LANG(?commonNameEn) = "en") }
+      OPTIONAL { ?taxon rdfs:label ?commonNameZh . FILTER(LANG(?commonNameZh) = "zh") }
+      OPTIONAL { ?taxon rdfs:label ?commonNameKn . FILTER(LANG(?commonNameKn) = "kn") }
+    }
+  }
+  ?uri a dwc:Occurrence ;
+       dwc:vernacularName ?commonNameNl ;
+       geo:hasGeometry/geo:asGeoJSON ?geometry ;
+       dwc:eventDate ?date ;
+       dwc:scientificName ?name .
+}
+LIMIT 2500`;
+
+        // ── Query 2: Bats (Chiroptera, Q176901) — georeferenced occurrences ──────
+        const QUERY_2 = `PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX wd:  <http://www.wikidata.org/entity/>
@@ -555,12 +687,12 @@ WHERE {
 }
 LIMIT 300`;
 
-        // ── Bootstrap ────────────────────────────────────────────────────────────────
-        window.addEventListener('DOMContentLoaded', () => {
+        // ── Init helper ──────────────────────────────────────────────────────────
+        function initYasgui(containerId, query, defaultPlugin = "table") {
+            // Give each instance its own localStorage namespace
+            localStorage.removeItem(containerId);
 
-            const GeoPlugin = window.YasguiGeoTg && (window.YasguiGeoTg.default || window.YasguiGeoTg);
-
-            const el = document.getElementById('yasgui1');
+            const el = document.getElementById(containerId);
             const yasgui = new Yasgui(el, {
                 requestConfig: {
                     endpoint: ENDPOINT,
@@ -570,21 +702,27 @@ LIMIT 300`;
                 copyEndpointOnNewTab: true,
                 yasr: {
                     pluginOrder: ["table", "geo", "response"],
-                    defaultPlugin: "geo"
+                    defaultPlugin: defaultPlugin
                 }
             });
 
             try {
                 const tab = yasgui.getTab();
                 if (tab) {
-                    tab.setQuery(QUERY_1);
+                    tab.setQuery(query);
                     tab.query();
                 }
             } catch (e) {
-                console.warn("Could not set query:", e);
+                console.warn("Could not run query:", e);
             }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initYasgui('yasgui1', QUERY_1, "table");  // owls — table view (species list)
+            initYasgui('yasgui2', QUERY_2, "geo");    // bats  — map view (spatial distribution)
         });
     </script>
+
 </body>
 
 </html>
