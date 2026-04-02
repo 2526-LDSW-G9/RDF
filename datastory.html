@@ -614,9 +614,285 @@
             </p>
             <p>
                 The <strong>GeoJSON geometry</strong> for each occurrence is stored via
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">geo:hasGeometry/geo:asGeoJSON</code>
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">geo:geometry</code>
                 and rendered here using <a href="https://leafletjs.com" target="_blank">Leaflet</a>
                 with an OpenStreetMap base layer.
+            </p>
+        </div>
+
+        <hr class="rule">
+
+        <!-- ── Query 3: Grid Cell & Blurring ── -->
+        <div class="section-label">
+            <span class="section-number">3</span>
+            <h2 class="section-heading">Spatial Precision — Grid Cells &amp; Blurring Levels</h2>
+        </div>
+
+        <div class="prose">
+            <p>
+                Not all occurrence records are published at full spatial resolution. Sensitive species —
+                particularly those vulnerable to disturbance at nesting or roosting sites — are
+                <strong>deliberately blurred</strong> to a coarser grid cell before public release.
+                This practice is standard in Dutch biodiversity data management and is governed by
+                the data provider's blurring policy.
+            </p>
+            <p>
+                The query below joins each observation to its <strong>grid cell</strong>
+                (<code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:intersectsGridCell</code>)
+                and its <strong>blurring level</strong>
+                (<code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:hasBlurringLevel</code>),
+                giving a direct view of which species groups have their precise locations withheld
+                and at what coarseness.
+            </p>
+        </div>
+
+        <div class="callout">
+            <div class="callout-label">wlw:BlurringLevel</div>
+            <p>
+                Blurring levels are encoded as named individuals in the local ontology.
+                The <code style="font-family:'DM Mono',monospace;font-size:.85em;">STRAFTER</code> function
+                strips the namespace prefix so the table displays the short label directly
+                (e.g. <em>Blurred1km</em>, <em>Blurred5km</em>).
+            </p>
+        </div>
+
+        <div class="query-block">
+            <div class="query-block-header">
+                <span class="query-block-title">Query 3 · Observations — Grid Cell &amp; Blurring Level</span>
+                <span class="query-block-endpoint">wlw/sparql</span>
+            </div>
+            <div class="yasgui-wrap" id="yasgui3"></div>
+        </div>
+
+        <div class="ornament">· · ·</div>
+
+        <div class="prose">
+            <p>
+                Comparing the blurring column across species groups reveals which taxa are considered
+                most sensitive. Records with a coarser grid cell and a higher blurring level are
+                precisely those that would require direct fieldwork to verify location for a planning assessment.
+            </p>
+        </div>
+
+        <hr class="rule">
+
+        <!-- ── Query 4: Observation Protocols ── -->
+        <div class="section-label">
+            <span class="section-number">4</span>
+            <h2 class="section-heading">Survey Methods — Observation Protocols</h2>
+        </div>
+
+        <div class="prose">
+            <p>
+                Occurrence records are collected through a variety of standardised survey protocols —
+                ranging from passive acoustic bat detectors and nest-box inspections to transect walks
+                and citizen-science submissions. The protocol used affects both the
+                <strong>detectability</strong> of a species and the <strong>legal weight</strong>
+                of the observation in a permit application.
+            </p>
+            <p>
+                This query links each observation to its
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:usesProtocol</code>
+                relation and surfaces the human-readable
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:protocolName</code>.
+                Browsing the results by species group makes it immediately clear which taxa are
+                monitored through structured surveys versus opportunistic records.
+            </p>
+        </div>
+
+        <div class="callout">
+            <div class="callout-label">wlw:ObservationProtocol</div>
+            <p>
+                Protocols are modelled as first-class entities in the ontology, allowing multiple
+                observations to share a single protocol instance and enabling protocol-level
+                aggregations without string matching.
+            </p>
+        </div>
+
+        <div class="query-block">
+            <div class="query-block-header">
+                <span class="query-block-title">Query 4 · Observations — Survey Protocol</span>
+                <span class="query-block-endpoint">wlw/sparql</span>
+            </div>
+            <div class="yasgui-wrap" id="yasgui4"></div>
+        </div>
+
+        <div class="ornament">· · ·</div>
+
+        <div class="prose">
+            <p>
+                Records gathered through standardised, repeatable protocols carry more evidential weight
+                in an ecological assessment than one-off opportunistic sightings. Where a protocol name
+                is absent, the observation was either submitted without protocol metadata or
+                predates the ontology's protocol vocabulary.
+            </p>
+        </div>
+
+        <hr class="rule">
+
+        <!-- ── Query 5: Observation Periods ── -->
+        <div class="section-label">
+            <span class="section-number">5</span>
+            <h2 class="section-heading">Temporal Coverage — Observation Periods</h2>
+        </div>
+
+        <div class="prose">
+            <p>
+                Many ecological surveys are conducted across a defined period rather than on a single
+                date — a bat detector might run for an entire night, or a grid-cell survey might
+                span a full breeding season. The dataset models this through a dedicated
+                <strong>observation period</strong> entity with explicit start and end timestamps.
+            </p>
+            <p>
+                The query below retrieves the
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:periodStart</code>
+                and
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:periodEnd</code>
+                for each observation, alongside its species group. This allows
+                a temporal overview: which groups are surveyed seasonally, and whether recent
+                years show increasing or decreasing monitoring effort.
+            </p>
+        </div>
+
+        <div class="callout">
+            <div class="callout-label">wlw:ObservationPeriod</div>
+            <p>
+                Period start and end are stored as typed
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">xsd:date</code>
+                literals, making them directly sortable and filterable in SPARQL without
+                string parsing.
+            </p>
+        </div>
+
+        <div class="query-block">
+            <div class="query-block-header">
+                <span class="query-block-title">Query 5 · Observations — Period Start &amp; End</span>
+                <span class="query-block-endpoint">wlw/sparql</span>
+            </div>
+            <div class="yasgui-wrap" id="yasgui5"></div>
+        </div>
+
+        <div class="ornament">· · ·</div>
+
+        <div class="prose">
+            <p>
+                Long survey windows covering spring and summer correspond to the breeding season
+                assessments required under the Wet natuurbescherming. Short overnight periods are
+                characteristic of acoustic bat surveys. The spread of dates in the results gives
+                a direct picture of the dataset's temporal completeness.
+            </p>
+        </div>
+
+        <hr class="rule">
+
+        <!-- ── Query 6: Combined Overview ── -->
+        <div class="section-label">
+            <span class="section-number">6</span>
+            <h2 class="section-heading">Combined View — Policy, Spatial &amp; Protocol</h2>
+        </div>
+
+        <div class="prose">
+            <p>
+                A planning assessment does not consider any one dimension in isolation: the
+                <strong>legal protection status</strong> of a species, the <strong>spatial precision</strong>
+                of its recorded locations, and the <strong>survey method</strong> used to detect it all
+                feed into the same decision. This query brings those three dimensions together in
+                a single result set.
+            </p>
+            <p>
+                Each row shows one observation with its species group, policy status
+                (resolved from the ontology's named individuals via
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">COALESCE</code>),
+                grid cell, blurring level, and protocol — giving the most complete per-observation
+                picture available in the dataset.
+            </p>
+        </div>
+
+        <div class="callout">
+            <div class="callout-label">wlw:PolicyStatus</div>
+            <p>
+                Policy status is attached at the <em>species</em> level, not the observation level,
+                so a single lookup on
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:hasPolicyStatus</code>
+                propagates to all occurrences of that taxon. The
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">COALESCE</code>
+                expression prefers a human-readable label but falls back to the local name of the IRI.
+            </p>
+        </div>
+
+        <div class="query-block">
+            <div class="query-block-header">
+                <span class="query-block-title">Query 6 · Combined — Policy · Grid · Blurring · Protocol</span>
+                <span class="query-block-endpoint">wlw/sparql</span>
+            </div>
+            <div class="yasgui-wrap" id="yasgui6"></div>
+        </div>
+
+        <div class="ornament">· · ·</div>
+
+        <div class="prose">
+            <p>
+                Filtering this table on a high-protection policy status and a coarse blurring level
+                immediately surfaces the observations where a developer faces the greatest
+                regulatory exposure: legally sensitive species whose precise locations are
+                withheld from the public record.
+            </p>
+        </div>
+
+        <hr class="rule">
+
+        <!-- ── Query 7: Grid Cells & Regions ── -->
+        <div class="section-label">
+            <span class="section-number">7</span>
+            <h2 class="section-heading">Administrative Geography — Grid Cells &amp; Regions</h2>
+        </div>
+
+        <div class="prose">
+            <p>
+                Dutch nature-protection assessments are often scoped by administrative region —
+                municipality, province, or a designated Natura 2000 area boundary.
+                The dataset links each observation area to both a
+                <strong>standardised grid cell</strong> and an <strong>administrative region</strong>,
+                enabling cross-referencing between the national monitoring grid and the
+                jurisdictional boundaries that govern permitting decisions.
+            </p>
+            <p>
+                This query retrieves the grid cell identifier and the region name for each observation,
+                giving a direct join table between the two spatial reference systems used in the dataset.
+                It is particularly useful for aggregating species counts per municipality or
+                identifying which grid cells fall within a contested planning area.
+            </p>
+        </div>
+
+        <div class="callout">
+            <div class="callout-label">wlw:ObservationArea</div>
+            <p>
+                Observation areas are modelled as spatial objects that can simultaneously
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">intersectsGridCell</code>
+                and
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">intersectsRegion</code>,
+                reflecting the real-world situation where a single survey plot straddles
+                multiple administrative boundaries.
+            </p>
+        </div>
+
+        <div class="query-block">
+            <div class="query-block-header">
+                <span class="query-block-title">Query 7 · Observations — Grid Cell &amp; Administrative Region</span>
+                <span class="query-block-endpoint">wlw/sparql</span>
+            </div>
+            <div class="yasgui-wrap" id="yasgui7"></div>
+        </div>
+
+        <div class="ornament">· · ·</div>
+
+        <div class="prose">
+            <p>
+                Where both a grid cell and a region name are present, the observation can be
+                placed precisely within the administrative geography used for permit review.
+                Records with a region but no grid cell — or vice versa — indicate gaps in
+                the spatial annotation that may need to be resolved before the data can
+                support a formal planning assessment.
             </p>
         </div>
 
@@ -655,11 +931,11 @@ WHERE {
   }
   ?uri a dwc:Occurrence ;
        dwc:vernacularName ?commonNameNl ;
-       geo:hasGeometry/geo:asGeoJSON ?geometry ;
+       geo:geometry ?geometry ;
        dwc:eventDate ?date ;
        dwc:scientificName ?name .
 }
-LIMIT 2500`;
+LIMIT 1000`;
 
         // ── Query 2: Bats (Chiroptera, Q176901) — georeferenced occurrences ──────
         const QUERY_2 = `PREFIX geo: <http://www.opengis.net/ont/geosparql#>
@@ -681,11 +957,139 @@ WHERE {
   }
   ?uri a dwc:Occurrence ;
        dwc:vernacularName ?commonNameNl ;
-       geo:hasGeometry/geo:asGeoJSON ?geometry ;
+       geo:geometry ?geometry ;
        dwc:eventDate ?date ;
        dwc:scientificName ?name .
 }
 LIMIT 300`;
+
+        // ── Query 3: Grid Cell & Blurring Level ─────────────────────────────────
+        const QUERY_3 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+
+SELECT ?obs ?scientificName ?speciesGroup ?gridCell ?blurring
+WHERE {
+  ?obs a dwc:Occurrence, wlw:Observation ;
+       dwc:scientificName ?scientificName ;
+       wlw:observedSpecies ?species ;
+       wlw:hasObservationArea ?area .
+
+  ?species wlw:belongsToSpeciesGroup ?group .
+  ?group wlw:groupName ?speciesGroup .
+
+  OPTIONAL {
+    ?area wlw:intersectsGridCell ?cell .
+    ?cell wlw:gridCellID ?gridCell .
+  }
+
+  OPTIONAL {
+    ?area wlw:hasBlurringLevel ?blur .
+    BIND(STRAFTER(STR(?blur), "#") AS ?blurring)
+  }
+}
+LIMIT 1000`;
+
+        // ── Query 4: Observation Protocols ──────────────────────────────────────
+        const QUERY_4 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+
+SELECT ?obs ?scientificName ?speciesGroup ?protocolName
+WHERE {
+  ?obs a dwc:Occurrence, wlw:Observation ;
+       dwc:scientificName ?scientificName ;
+       wlw:observedSpecies ?species ;
+       wlw:usesProtocol ?protocol .
+
+  ?species wlw:belongsToSpeciesGroup ?group .
+  ?group wlw:groupName ?speciesGroup .
+
+  OPTIONAL {
+    ?protocol wlw:protocolName ?protocolName .
+  }
+}
+LIMIT 1000`;
+
+        // ── Query 5: Observation Periods ────────────────────────────────────────
+        const QUERY_5 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+
+SELECT ?obs ?scientificName ?speciesGroup ?start ?end
+WHERE {
+  ?obs a dwc:Occurrence, wlw:Observation ;
+       dwc:scientificName ?scientificName ;
+       wlw:observedSpecies ?species ;
+       wlw:hasObservationPeriod ?period .
+
+  ?species wlw:belongsToSpeciesGroup ?group .
+  ?group wlw:groupName ?speciesGroup .
+
+  OPTIONAL { ?period wlw:periodStart ?start . }
+  OPTIONAL { ?period wlw:periodEnd ?end . }
+}
+LIMIT 1000`;
+
+        // ── Query 6: Combined — Policy, Spatial & Protocol ───────────────────────
+        const QUERY_6 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+
+SELECT ?obs ?scientificName ?speciesGroup ?policyStatus ?gridCell ?blurring ?protocolName
+WHERE {
+  ?obs a dwc:Occurrence, wlw:Observation ;
+       dwc:scientificName ?scientificName ;
+       wlw:observedSpecies ?species ;
+       wlw:hasObservationArea ?area .
+
+  ?species wlw:belongsToSpeciesGroup ?group .
+  ?group wlw:groupName ?speciesGroup .
+
+  OPTIONAL {
+    ?species wlw:hasPolicyStatus ?policy .
+    OPTIONAL { ?policy wlw:policyStatusLabel ?policyLabel . }
+    BIND(COALESCE(?policyLabel, STRAFTER(STR(?policy), "#")) AS ?policyStatus)
+  }
+
+  OPTIONAL {
+    ?area wlw:intersectsGridCell ?cell .
+    ?cell wlw:gridCellID ?gridCell .
+  }
+
+  OPTIONAL {
+    ?area wlw:hasBlurringLevel ?blur .
+    BIND(STRAFTER(STR(?blur), "#") AS ?blurring)
+  }
+
+  OPTIONAL {
+    ?obs wlw:usesProtocol ?protocol .
+    ?protocol wlw:protocolName ?protocolName .
+  }
+}
+LIMIT 1000`;
+
+        // ── Query 7: Grid Cells & Administrative Regions ─────────────────────────
+        const QUERY_7 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+
+SELECT ?obs ?scientificName ?speciesGroup ?gridCell ?regionName
+WHERE {
+  ?obs a dwc:Occurrence, wlw:Observation ;
+       dwc:scientificName ?scientificName ;
+       wlw:observedSpecies ?species ;
+       wlw:hasObservationArea ?area .
+
+  ?species wlw:belongsToSpeciesGroup ?group .
+  ?group wlw:groupName ?speciesGroup .
+
+  OPTIONAL {
+    ?area wlw:intersectsGridCell ?cell .
+    ?cell wlw:gridCellID ?gridCell .
+  }
+
+  OPTIONAL {
+    ?area wlw:intersectsRegion ?region .
+    ?region wlw:regionName ?regionName .
+  }
+}
+LIMIT 1000`;
 
         // ── Init helper ──────────────────────────────────────────────────────────
         function initYasgui(containerId, query, defaultPlugin = "table") {
@@ -720,6 +1124,11 @@ LIMIT 300`;
         window.addEventListener('DOMContentLoaded', () => {
             initYasgui('yasgui1', QUERY_1, "table");  // owls — table view (species list)
             initYasgui('yasgui2', QUERY_2, "geo");    // bats  — map view (spatial distribution)
+            initYasgui('yasgui3', QUERY_3, "table");  // grid cell & blurring level
+            initYasgui('yasgui4', QUERY_4, "table");  // observation protocols
+            initYasgui('yasgui5', QUERY_5, "table");  // observation periods
+            initYasgui('yasgui6', QUERY_6, "table");  // combined — policy, spatial, protocol
+            initYasgui('yasgui7', QUERY_7, "table");  // grid cells & administrative regions
         });
     </script>
 
