@@ -614,7 +614,7 @@
             </p>
             <p>
                 The <strong>GeoJSON geometry</strong> for each occurrence is stored via
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">geo:geometry</code>
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:hasObservationArea/geo:hasGeometry/geo:asWKT</code>
                 and rendered here using <a href="https://leafletjs.com" target="_blank">Leaflet</a>
                 with an OpenStreetMap base layer.
             </p>
@@ -912,7 +912,8 @@
         const ENDPOINT = "https://fuseki-blob.orangewater-ddd174cb.swedencentral.azurecontainerapps.io/wlw/";
 
         // ── Query 1: Owls (Strigiformes, Q25222) — species inventory ────────────
-        const QUERY_1 = `PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+        const QUERY_1 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX wd:  <http://www.wikidata.org/entity/>
@@ -931,14 +932,15 @@ WHERE {
   }
   ?uri a dwc:Occurrence ;
        dwc:vernacularName ?commonNameNl ;
-       geo:geometry ?geometry ;
+       wlw:hasObservationArea/geo:hasGeometry/geo:asWKT ?geometry ;
        dwc:eventDate ?date ;
        dwc:scientificName ?name .
 }
 LIMIT 1000`;
 
         // ── Query 2: Bats (Chiroptera, Q176901) — georeferenced occurrences ──────
-        const QUERY_2 = `PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+        const QUERY_2 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 PREFIX wd:  <http://www.wikidata.org/entity/>
@@ -957,7 +959,7 @@ WHERE {
   }
   ?uri a dwc:Occurrence ;
        dwc:vernacularName ?commonNameNl ;
-       geo:geometry ?geometry ;
+       wlw:hasObservationArea/geo:hasGeometry/geo:asWKT ?geometry ;
        dwc:eventDate ?date ;
        dwc:scientificName ?name .
 }
