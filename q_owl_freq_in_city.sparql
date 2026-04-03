@@ -1,0 +1,39 @@
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wd:  <http://www.wikidata.org/entity/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix imxgeo: <http://modellen.geostandaarden.nl/def/imx-geo#>
+
+SELECT ?commonNameEn (COUNT(?uri) AS ?count)
+WHERE {
+  # Fetch Enschede's boundary from Kadaster
+  SERVICE <https://data.kkg.kadaster.nl/service/sparql> {
+        ?city a imxgeo:Woonplaats ;
+              imxgeo:naam "Tubbergen" ;
+              geo:hasGeometry/geo:asWKT ?cityGeom .
+  }
+
+  # Fetch taxon names from Wikidata
+  SERVICE <https://query.wikidata.org/sparql> {
+    SELECT ?taxon ?name ?commonNameEn WHERE {
+      ?taxon wdt:P171* wd:Q25222 ;
+             wdt:P225 ?name .
+      OPTIONAL { ?taxon rdfs:label ?commonNameEn . FILTER(LANG(?commonNameEn) = "en") }
+    }
+  }
+
+  ?uri a dwc:Occurrence ;
+       dwc:vernacularName ?commonName ;
+       wlw:hasObservationArea/geo:hasGeometry/geo:asWKT ?geometry ;
+       dwc:scientificName ?name .
+
+  FILTER(geof:sfWithin(?geometry, ?cityGeom))
+}
+GROUP BY ?commonNameEn
+ORDER BY DESC(?count)
+
+# commonNameEn  | count
+# tawny owl"@en | 1

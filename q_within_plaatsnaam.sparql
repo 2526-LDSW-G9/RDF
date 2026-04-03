@@ -1,0 +1,34 @@
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX imxgeo: <http://modellen.geostandaarden.nl/def/imx-geo#>
+
+SELECT ?name ?geometry
+WHERE {
+  {
+    SELECT ?cityGeom
+    WHERE {
+
+      SERVICE <https://data.kkg.kadaster.nl/service/sparql> {
+        ?city a imxgeo:Woonplaats ;
+              imxgeo:naam "Enschede" ;
+              geo:hasGeometry/geo:asWKT ?cityGeom .
+      }
+    }
+  }
+
+  ?uri a dwc:Occurrence ;
+              wlw:hasObservationArea/geo:hasGeometry/geo:asWKT ?geometry ;
+              dwc:scientificName ?name .
+
+    FILTER(geof:sfWithin(?geometry, ?cityGeom))
+}
+LIMIT 5
+
+# name                | geometry
+# Vespa velutina      | "POLYGON ((...))"
+# Vespa velutina      | "POLYGON ((...))"
+# Chrysops caecutiens | "POLYGON ((...))"
+# Hirundo rustica     | "POLYGON ((...))"
+# Hirundo rustica     | "POLYGON ((...))"

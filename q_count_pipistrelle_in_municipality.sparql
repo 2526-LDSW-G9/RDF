@@ -1,0 +1,26 @@
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix imxgeo: <http://modellen.geostandaarden.nl/def/imx-geo#>
+
+SELECT (COUNT(?uri) AS ?count)
+WHERE {
+  # Fetch Tubbergen's municipality area from Kadaster
+  SERVICE <https://data.kkg.kadaster.nl/service/sparql> {
+        ?city a imxgeo:Gemeentegebied ;
+              imxgeo:naam "Tubbergen" ;
+              geo:hasGeometry/geo:asWKT ?cityGeom .
+  }
+
+  ?uri a dwc:Occurrence ;
+       dwc:vernacularName ?commonName ;
+       wlw:hasObservationArea/geo:hasGeometry/geo:asWKT ?geometry ;
+       dwc:scientificName "Pipistrellus pipistrellus" .
+
+  FILTER(geof:sfWithin(?geometry, ?cityGeom))
+}
+
+# count
+# 64
