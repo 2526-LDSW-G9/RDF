@@ -24,13 +24,13 @@
 
     <style>
         :root {
-            --ink: #1a1a18;
-            --paper: #f5f0e8;
-            --cream: #ede7d5;
-            --sage: #4a6741;
-            --moss: #2e4228;
-            --muted: #6b6457;
-            --rule: #c8bfa8;
+            --ink: #181e17;
+            --paper: #f3f7f2;
+            --cream: #e4ede3;
+            --sage: #3d6b35;
+            --moss: #234a1c;
+            --muted: #5a6b57;
+            --rule: #b0c8ad;
         }
 
         *,
@@ -433,7 +433,7 @@
                 NL</strong><br><br>
             Standards<br>
             DWC · GeoSPARQL<br>
-            Wikidata Federation
+            Wikidata · KKG Federation
         </div>
     </div>
 
@@ -450,9 +450,12 @@
                 <em>Gewone dwergvleermuis</em> (<em>Pipistrellus pipistrellus</em>).
             </p>
             <p>
-                This data story queries a linked biodiversity dataset of occurrence records from Twente,
-                federating with <strong>Wikidata</strong> to resolve taxonomic lineage.
-                Each query is live — results are fetched directly from the triple store and plotted on the map below.
+                This data story queries a linked biodiversity dataset of occurrence records from Twente.
+                The four queries below progress in complexity: from a simple local query, to a richer
+                multi-join on local data, then to federation with <strong>Wikidata</strong> for taxonomic
+                lineage, and finally a triple federation that also reaches the
+                <strong>Kadaster Knowledge Graph (KKG)</strong> to resolve a municipal boundary by name.
+                Each query is live — results are fetched directly from the triple store.
             </p>
         </div>
 
@@ -482,7 +485,12 @@
                 <tr>
                     <td>geo:</td>
                     <td>http://www.opengis.net/ont/geosparql#</td>
-                    <td>GeoSPARQL — geometries, GeoJSON</td>
+                    <td>GeoSPARQL — geometries, spatial functions</td>
+                </tr>
+                <tr>
+                    <td>geof:</td>
+                    <td>http://www.opengis.net/def/function/geosparql/</td>
+                    <td>GeoSPARQL functions — sfWithin, sfIntersects</td>
                 </tr>
                 <tr>
                     <td>wdt:</td>
@@ -499,186 +507,19 @@
                     <td>http://www.w3.org/2000/01/rdf-schema#</td>
                     <td>Labels and subclass relations</td>
                 </tr>
+                <tr>
+                    <td>imxgeo:</td>
+                    <td>http://modellen.geostandaarden.nl/def/imx-geo#</td>
+                    <td>KKG (Kadaster) — municipalities, administrative areas</td>
+                </tr>
             </tbody>
         </table>
 
         <hr class="rule">
 
-        <!-- ── Query 1: Owls ── -->
+        <!-- ── Query 1: Observation Protocols (simplest local) ── -->
         <div class="section-label">
             <span class="section-number">1</span>
-            <h2 class="section-heading">Owl Sightings in Twente — Strigiformes</h2>
-        </div>
-
-        <div class="prose">
-            <p>
-                Strigiformes — the order of owls — are strictly protected under both Dutch law and the
-                European Habitats Directive. Species such as the <em>Kerkuil</em> (barn owl) and
-                <em>Ransuil</em> (long-eared owl) frequently roost in agricultural buildings, church towers,
-                and woodland edges. A confirmed nesting site within a development zone can trigger a
-                mandatory ecological survey and, in many cases, a multi-year delay.
-            </p>
-            <p>
-                The query below retrieves all owl occurrence records from the dataset, cross-referencing
-                Wikidata to resolve Dutch, English, Chinese, and Kannada common names.
-                Results are deduplicated on vernacular name — use the table to browse species,
-                and the map to explore the spatial distribution of sightings.
-            </p>
-        </div>
-
-        <div class="callout">
-            <div class="callout-label">Wikidata · Q25222</div>
-            <p>
-                <strong>Strigiformes</strong> — the owl order. The query traverses
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wdt:P171*</code>
-                (parent taxon, transitive) to capture all species within this clade present in the dataset.
-            </p>
-        </div>
-
-        <div class="query-block">
-            <div class="query-block-header">
-                <span class="query-block-title">Query 1 · Owl Occurrences — Strigiformes (Q25222)</span>
-                <span class="query-block-endpoint">wlw/sparql</span>
-            </div>
-            <div class="yasgui-wrap" id="yasgui1"></div>
-        </div>
-
-        <div class="ornament">· · ·</div>
-
-        <div class="prose">
-            <p>
-                The results show the distinct owl species recorded in the area. Because this query uses
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">SELECT DISTINCT</code>
-                on vernacular names rather than individual occurrences, it gives a clean species inventory
-                rather than a point cloud — useful for a first assessment of which taxa are present.
-            </p>
-        </div>
-
-        <hr class="rule">
-
-        <!-- ── Query 2: Bats ── -->
-        <div class="section-label">
-            <span class="section-number">2</span>
-            <h2 class="section-heading">Dwergvleermuis Sightings — The Bat That Blocks Planning</h2>
-        </div>
-
-        <div class="prose">
-            <p>
-                The <em>Gewone dwergvleermuis</em> (<em>Pipistrellus pipistrellus</em>) is the most common bat
-                in the Netherlands, with an estimated population of 300,000 to 600,000 individuals.
-                Despite its abundance, it is <strong>fully protected</strong> under the Wet natuurbescherming —
-                and its preference for roosting in cavity walls, roof spaces, and building joints makes it
-                a routine obstacle in urban development and renovation projects throughout Twente.
-            </p>
-            <p>
-                Any construction or demolition work that could disturb a roost requires a species survey
-                and, if bats are present, an exemption (<em>ontheffing</em>) from the provincial authority.
-                This process typically takes several months and may require compensatory measures such as
-                installing bat boxes or redesigning the building envelope.
-            </p>
-            <p>
-                The query below retrieves all <em>Chiroptera</em> (bat) occurrences from the dataset —
-                specifically those under Wikidata entity <strong>Q176901</strong> — with their georeferenced
-                observation points. Switch to the <strong>🗺 Map tab</strong> to see where in Twente
-                bat activity has been recorded.
-            </p>
-        </div>
-
-        <div class="callout">
-            <div class="callout-label">Wikidata · Q176901</div>
-            <p>
-                <strong>Chiroptera</strong> — the bat order. All species in this clade recorded as
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">dwc:Occurrence</code>
-                in the dataset are included, joined on
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">dwc:scientificName</code>
-                via the Wikidata federation.
-            </p>
-        </div>
-
-        <div class="query-block">
-            <div class="query-block-header">
-                <span class="query-block-title">Query 2 · Bat Occurrences with Geometry — Chiroptera (Q176901)</span>
-                <span class="query-block-endpoint">wlw/sparql</span>
-            </div>
-            <div class="yasgui-wrap" id="yasgui2"></div>
-        </div>
-
-        <div class="ornament">· · ·</div>
-
-        <div class="prose">
-            <p>
-                Each point on the map represents a georeferenced bat observation. Clusters of sightings
-                near built-up areas are particularly significant from a planning perspective — these are
-                precisely the locations where roost surveys would be required before any
-                demolition or renovation permit could be issued.
-            </p>
-            <p>
-                The <strong>GeoJSON geometry</strong> for each occurrence is stored via
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:hasObservationArea/geo:hasGeometry/geo:asWKT</code>
-                and rendered here using <a href="https://leafletjs.com" target="_blank">Leaflet</a>
-                with an OpenStreetMap base layer.
-            </p>
-        </div>
-
-        <hr class="rule">
-
-        <!-- ── Query 3: Grid Cell & Blurring ── -->
-        <div class="section-label">
-            <span class="section-number">3</span>
-            <h2 class="section-heading">Spatial Precision — Grid Cells &amp; Blurring Levels</h2>
-        </div>
-
-        <div class="prose">
-            <p>
-                Not all occurrence records are published at full spatial resolution. Sensitive species —
-                particularly those vulnerable to disturbance at nesting or roosting sites — are
-                <strong>deliberately blurred</strong> to a coarser grid cell before public release.
-                This practice is standard in Dutch biodiversity data management and is governed by
-                the data provider's blurring policy.
-            </p>
-            <p>
-                The query below joins each observation to its <strong>grid cell</strong>
-                (<code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:intersectsGridCell</code>)
-                and its <strong>blurring level</strong>
-                (<code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:hasBlurringLevel</code>),
-                giving a direct view of which species groups have their precise locations withheld
-                and at what coarseness.
-            </p>
-        </div>
-
-        <div class="callout">
-            <div class="callout-label">wlw:BlurringLevel</div>
-            <p>
-                Blurring levels are encoded as named individuals in the local ontology.
-                The <code style="font-family:'DM Mono',monospace;font-size:.85em;">STRAFTER</code> function
-                strips the namespace prefix so the table displays the short label directly
-                (e.g. <em>Blurred1km</em>, <em>Blurred5km</em>).
-            </p>
-        </div>
-
-        <div class="query-block">
-            <div class="query-block-header">
-                <span class="query-block-title">Query 3 · Observations — Grid Cell &amp; Blurring Level</span>
-                <span class="query-block-endpoint">wlw/sparql</span>
-            </div>
-            <div class="yasgui-wrap" id="yasgui3"></div>
-        </div>
-
-        <div class="ornament">· · ·</div>
-
-        <div class="prose">
-            <p>
-                Comparing the blurring column across species groups reveals which taxa are considered
-                most sensitive. Records with a coarser grid cell and a higher blurring level are
-                precisely those that would require direct fieldwork to verify location for a planning assessment.
-            </p>
-        </div>
-
-        <hr class="rule">
-
-        <!-- ── Query 4: Observation Protocols ── -->
-        <div class="section-label">
-            <span class="section-number">4</span>
             <h2 class="section-heading">Survey Methods — Observation Protocols</h2>
         </div>
 
@@ -695,8 +536,9 @@
                 <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:usesProtocol</code>
                 relation and surfaces the human-readable
                 <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:protocolName</code>.
-                Browsing the results by species group makes it immediately clear which taxa are
-                monitored through structured surveys versus opportunistic records.
+                It touches only the local triple store — no federation — making it the most direct
+                query in this story. Browsing the results by species group makes it immediately clear
+                which taxa are monitored through structured surveys versus opportunistic records.
             </p>
         </div>
 
@@ -711,10 +553,10 @@
 
         <div class="query-block">
             <div class="query-block-header">
-                <span class="query-block-title">Query 4 · Observations — Survey Protocol</span>
-                <span class="query-block-endpoint">wlw/sparql</span>
+                <span class="query-block-title">Query 1 · Observations — Survey Protocol</span>
+                <span class="query-block-endpoint">wlw/sparql · local</span>
             </div>
-            <div class="yasgui-wrap" id="yasgui4"></div>
+            <div class="yasgui-wrap" id="yasgui1"></div>
         </div>
 
         <div class="ornament">· · ·</div>
@@ -730,64 +572,9 @@
 
         <hr class="rule">
 
-        <!-- ── Query 5: Observation Periods ── -->
+        <!-- ── Query 2: Combined — Policy, Spatial & Protocol (complex local) ── -->
         <div class="section-label">
-            <span class="section-number">5</span>
-            <h2 class="section-heading">Temporal Coverage — Observation Periods</h2>
-        </div>
-
-        <div class="prose">
-            <p>
-                Many ecological surveys are conducted across a defined period rather than on a single
-                date — a bat detector might run for an entire night, or a grid-cell survey might
-                span a full breeding season. The dataset models this through a dedicated
-                <strong>observation period</strong> entity with explicit start and end timestamps.
-            </p>
-            <p>
-                The query below retrieves the
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:periodStart</code>
-                and
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:periodEnd</code>
-                for each observation, alongside its species group. This allows
-                a temporal overview: which groups are surveyed seasonally, and whether recent
-                years show increasing or decreasing monitoring effort.
-            </p>
-        </div>
-
-        <div class="callout">
-            <div class="callout-label">wlw:ObservationPeriod</div>
-            <p>
-                Period start and end are stored as typed
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">xsd:date</code>
-                literals, making them directly sortable and filterable in SPARQL without
-                string parsing.
-            </p>
-        </div>
-
-        <div class="query-block">
-            <div class="query-block-header">
-                <span class="query-block-title">Query 5 · Observations — Period Start &amp; End</span>
-                <span class="query-block-endpoint">wlw/sparql</span>
-            </div>
-            <div class="yasgui-wrap" id="yasgui5"></div>
-        </div>
-
-        <div class="ornament">· · ·</div>
-
-        <div class="prose">
-            <p>
-                Long survey windows covering spring and summer correspond to the breeding season
-                assessments required under the Wet natuurbescherming. Short overnight periods are
-                characteristic of acoustic bat surveys. The spread of dates in the results gives
-                a direct picture of the dataset's temporal completeness.
-            </p>
-        </div>
-
-        <hr class="rule">
-
-        <!-- ── Query 6: Combined Overview ── -->
-        <div class="section-label">
-            <span class="section-number">6</span>
+            <span class="section-number">2</span>
             <h2 class="section-heading">Combined View — Policy, Spatial &amp; Protocol</h2>
         </div>
 
@@ -797,7 +584,8 @@
                 <strong>legal protection status</strong> of a species, the <strong>spatial precision</strong>
                 of its recorded locations, and the <strong>survey method</strong> used to detect it all
                 feed into the same decision. This query brings those three dimensions together in
-                a single result set.
+                a single result set — still entirely within the local triple store, but joining
+                across four optional paths simultaneously.
             </p>
             <p>
                 Each row shows one observation with its species group, policy status
@@ -822,10 +610,10 @@
 
         <div class="query-block">
             <div class="query-block-header">
-                <span class="query-block-title">Query 6 · Combined — Policy · Grid · Blurring · Protocol</span>
-                <span class="query-block-endpoint">wlw/sparql</span>
+                <span class="query-block-title">Query 2 · Combined — Policy · Grid · Blurring · Protocol</span>
+                <span class="query-block-endpoint">wlw/sparql · local</span>
             </div>
-            <div class="yasgui-wrap" id="yasgui6"></div>
+            <div class="yasgui-wrap" id="yasgui2"></div>
         </div>
 
         <div class="ornament">· · ·</div>
@@ -841,58 +629,128 @@
 
         <hr class="rule">
 
-        <!-- ── Query 7: Grid Cells & Regions ── -->
+        <!-- ── Query 3: Bats — Wikidata federation ── -->
         <div class="section-label">
-            <span class="section-number">7</span>
-            <h2 class="section-heading">Administrative Geography — Grid Cells &amp; Regions</h2>
+            <span class="section-number">3</span>
+            <h2 class="section-heading">Dwergvleermuis Sightings — The Bat That Blocks Planning</h2>
         </div>
 
         <div class="prose">
             <p>
-                Dutch nature-protection assessments are often scoped by administrative region —
-                municipality, province, or a designated Natura 2000 area boundary.
-                The dataset links each observation area to both a
-                <strong>standardised grid cell</strong> and an <strong>administrative region</strong>,
-                enabling cross-referencing between the national monitoring grid and the
-                jurisdictional boundaries that govern permitting decisions.
+                The <em>Gewone dwergvleermuis</em> (<em>Pipistrellus pipistrellus</em>) is the most common bat
+                in the Netherlands, with an estimated population of 300,000 to 600,000 individuals.
+                Despite its abundance, it is <strong>fully protected</strong> under the Wet natuurbescherming —
+                and its preference for roosting in cavity walls, roof spaces, and building joints makes it
+                a routine obstacle in urban development and renovation projects throughout Twente.
             </p>
             <p>
-                This query retrieves the grid cell identifier and the region name for each observation,
-                giving a direct join table between the two spatial reference systems used in the dataset.
-                It is particularly useful for aggregating species counts per municipality or
-                identifying which grid cells fall within a contested planning area.
+                Any construction or demolition work that could disturb a roost requires a species survey
+                and, if bats are present, an exemption (<em>ontheffing</em>) from the provincial authority.
+                This process typically takes several months and may require compensatory measures such as
+                installing bat boxes or redesigning the building envelope.
+            </p>
+            <p>
+                This query introduces <strong>Wikidata federation</strong>: the
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">SERVICE</code> clause resolves
+                all species within Chiroptera (Q176901) via the transitive parent-taxon property, then
+                joins back to the local store on scientific name to retrieve georeferenced observations.
+                Switch to the <strong>Map tab</strong> to see where in Twente bat activity has been recorded.
             </p>
         </div>
 
         <div class="callout">
-            <div class="callout-label">wlw:ObservationArea</div>
+            <div class="callout-label">Wikidata · Q176901</div>
             <p>
-                Observation areas are modelled as spatial objects that can simultaneously
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">intersectsGridCell</code>
-                and
-                <code style="font-family:'DM Mono',monospace;font-size:.85em;">intersectsRegion</code>,
-                reflecting the real-world situation where a single survey plot straddles
-                multiple administrative boundaries.
+                <strong>Chiroptera</strong> — the bat order. All species in this clade recorded as
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">dwc:Occurrence</code>
+                in the dataset are included, joined on
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">dwc:scientificName</code>
+                via the Wikidata federation.
             </p>
         </div>
 
         <div class="query-block">
             <div class="query-block-header">
-                <span class="query-block-title">Query 7 · Observations — Grid Cell &amp; Administrative Region</span>
-                <span class="query-block-endpoint">wlw/sparql</span>
+                <span class="query-block-title">Query 3 · Bat Occurrences with Geometry — Chiroptera (Q176901)</span>
+                <span class="query-block-endpoint">wlw/sparql · federation: Wikidata</span>
             </div>
-            <div class="yasgui-wrap" id="yasgui7"></div>
+            <div class="yasgui-wrap" id="yasgui3"></div>
         </div>
 
         <div class="ornament">· · ·</div>
 
         <div class="prose">
             <p>
-                Where both a grid cell and a region name are present, the observation can be
-                placed precisely within the administrative geography used for permit review.
-                Records with a region but no grid cell — or vice versa — indicate gaps in
-                the spatial annotation that may need to be resolved before the data can
-                support a formal planning assessment.
+                Each point on the map represents a georeferenced bat observation. Clusters of sightings
+                near built-up areas are particularly significant from a planning perspective — these are
+                precisely the locations where roost surveys would be required before any
+                demolition or renovation permit could be issued.
+            </p>
+            <p>
+                The <strong>GeoJSON geometry</strong> for each occurrence is stored via
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">wlw:hasObservationArea/geo:hasGeometry/geo:asWKT</code>
+                and rendered here using <a href="https://leafletjs.com" target="_blank">Leaflet</a>
+                with an OpenStreetMap base layer.
+            </p>
+        </div>
+
+        <hr class="rule">
+
+        <!-- ── Query 4: Owls in Tubbergen — Wikidata + KKG ── -->
+        <div class="section-label">
+            <span class="section-number">4</span>
+            <h2 class="section-heading">Owl Counts in Tubbergen — Strigiformes via KKG &amp; Wikidata</h2>
+        </div>
+
+        <div class="prose">
+            <p>
+                The most demanding query in this story federates across <strong>three endpoints simultaneously</strong>:
+                the local triple store, Wikidata, and the
+                <strong>Kadaster Knowledge Graph (KKG)</strong> — the authoritative Dutch government
+                linked-data service for administrative and topographic reference data.
+            </p>
+            <p>
+                The query asks: <em>for each owl species, how many occurrences fall within the municipality
+                of Tubbergen?</em> To answer this, it must (1) retrieve Tubbergen's exact boundary polygon
+                from KKG using the municipality name, (2) resolve all Strigiformes species from Wikidata
+                using the transitive parent-taxon relation, and (3) filter local occurrence geometries
+                with
+                <code style="font-family:'DM Mono',monospace;font-size:.85em;">geof:sfWithin</code>
+                against the KKG boundary — grouping by English common name and ordering by count.
+            </p>
+            <p>
+                This is exactly the kind of query a permit assessor needs: not just "are owls present in Twente"
+                but "how many owl sightings are recorded inside this specific municipality's boundary?"
+            </p>
+        </div>
+
+        <div class="callout">
+            <div class="callout-label">KKG · Tubbergen / Wikidata · Q25222</div>
+            <p>
+                <strong>KKG</strong> provides the <code style="font-family:'DM Mono',monospace;font-size:.85em;">imxgeo:Gemeentegebied</code>
+                geometry for Tubbergen. <strong>Wikidata</strong> provides the owl clade (Strigiformes, Q25222)
+                via <code style="font-family:'DM Mono',monospace;font-size:.85em;">wdt:P171*</code>.
+                The <code style="font-family:'DM Mono',monospace;font-size:.85em;">geof:sfWithin</code> function
+                then clips local occurrences to that boundary.
+            </p>
+        </div>
+
+        <div class="query-block">
+            <div class="query-block-header">
+                <span class="query-block-title">Query 4 · Owl Counts in Tubbergen — Strigiformes (Q25222)</span>
+                <span class="query-block-endpoint">wlw/sparql · federation: Wikidata + KKG</span>
+            </div>
+            <div class="yasgui-wrap" id="yasgui4"></div>
+        </div>
+
+        <div class="ornament">· · ·</div>
+
+        <div class="prose">
+            <p>
+                The result ranks owl species by observation count within Tubbergen's administrative boundary.
+                A high count for a particular species in a municipality with active development pressure
+                is a direct flag for the permit review process — it signals that a full species impact
+                assessment is likely required before any construction can proceed.
             </p>
         </div>
 
@@ -900,7 +758,7 @@
 
     <footer>
         <span>Wildlife Linked Data · Data Story · Twente</span>
-        <span>Darwin Core · GeoSPARQL · Wikidata</span>
+        <span>Darwin Core · GeoSPARQL · Wikidata · KKG</span>
     </footer>
 
     <script type="module">
@@ -911,88 +769,8 @@
 
         const ENDPOINT = "https://fuseki-blob.orangewater-ddd174cb.swedencentral.azurecontainerapps.io/wlw/";
 
-        // ── Query 1: Owls (Strigiformes, Q25222) — species inventory ────────────
+        // ── Query 1: Observation Protocols — simplest local query ────────────────
         const QUERY_1 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-PREFIX wd:  <http://www.wikidata.org/entity/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-SELECT DISTINCT ?commonNameNl ?commonNameEn ?commonNameZh ?commonNameKn
-WHERE {
-  SERVICE <https://query.wikidata.org/sparql> {
-    SELECT ?taxon ?name ?commonNameEn ?commonNameZh ?commonNameKn WHERE {
-      ?taxon wdt:P171* wd:Q25222 ;
-             wdt:P225 ?name .
-      OPTIONAL { ?taxon rdfs:label ?commonNameEn . FILTER(LANG(?commonNameEn) = "en") }
-      OPTIONAL { ?taxon rdfs:label ?commonNameZh . FILTER(LANG(?commonNameZh) = "zh") }
-      OPTIONAL { ?taxon rdfs:label ?commonNameKn . FILTER(LANG(?commonNameKn) = "kn") }
-    }
-  }
-  ?uri a dwc:Occurrence ;
-       dwc:vernacularName ?commonNameNl ;
-       wlw:hasObservationArea/geo:hasGeometry/geo:asWKT ?geometry ;
-       dwc:eventDate ?date ;
-       dwc:scientificName ?name .
-}
-LIMIT 1000`;
-
-        // ── Query 2: Bats (Chiroptera, Q176901) — georeferenced occurrences ──────
-        const QUERY_2 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-PREFIX wd:  <http://www.wikidata.org/entity/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-SELECT ?commonNameNl ?date ?geometry
-WHERE {
-  SERVICE <https://query.wikidata.org/sparql> {
-    SELECT ?taxon ?name ?commonNameEn ?commonNameZh ?commonNameKn WHERE {
-      ?taxon wdt:P171* wd:Q176901 ;
-             wdt:P225 ?name .
-      OPTIONAL { ?taxon rdfs:label ?commonNameEn . FILTER(LANG(?commonNameEn) = "en") }
-      OPTIONAL { ?taxon rdfs:label ?commonNameZh . FILTER(LANG(?commonNameZh) = "zh") }
-      OPTIONAL { ?taxon rdfs:label ?commonNameKn . FILTER(LANG(?commonNameKn) = "kn") }
-    }
-  }
-  ?uri a dwc:Occurrence ;
-       dwc:vernacularName ?commonNameNl ;
-       wlw:hasObservationArea/geo:hasGeometry/geo:asWKT ?geometry ;
-       dwc:eventDate ?date ;
-       dwc:scientificName ?name .
-}
-LIMIT 300`;
-
-        // ── Query 3: Grid Cell & Blurring Level ─────────────────────────────────
-        const QUERY_3 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
-PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
-
-SELECT ?obs ?scientificName ?speciesGroup ?gridCell ?blurring
-WHERE {
-  ?obs a dwc:Occurrence, wlw:Observation ;
-       dwc:scientificName ?scientificName ;
-       wlw:observedSpecies ?species ;
-       wlw:hasObservationArea ?area .
-
-  ?species wlw:belongsToSpeciesGroup ?group .
-  ?group wlw:groupName ?speciesGroup .
-
-  OPTIONAL {
-    ?area wlw:intersectsGridCell ?cell .
-    ?cell wlw:gridCellID ?gridCell .
-  }
-
-  OPTIONAL {
-    ?area wlw:hasBlurringLevel ?blur .
-    BIND(STRAFTER(STR(?blur), "#") AS ?blurring)
-  }
-}
-LIMIT 1000`;
-
-        // ── Query 4: Observation Protocols ──────────────────────────────────────
-        const QUERY_4 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 
 SELECT ?obs ?scientificName ?speciesGroup ?protocolName
@@ -1009,29 +787,10 @@ WHERE {
     ?protocol wlw:protocolName ?protocolName .
   }
 }
-LIMIT 1000`;
+LIMIT 10`;
 
-        // ── Query 5: Observation Periods ────────────────────────────────────────
-        const QUERY_5 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
-PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
-
-SELECT ?obs ?scientificName ?speciesGroup ?start ?end
-WHERE {
-  ?obs a dwc:Occurrence, wlw:Observation ;
-       dwc:scientificName ?scientificName ;
-       wlw:observedSpecies ?species ;
-       wlw:hasObservationPeriod ?period .
-
-  ?species wlw:belongsToSpeciesGroup ?group .
-  ?group wlw:groupName ?speciesGroup .
-
-  OPTIONAL { ?period wlw:periodStart ?start . }
-  OPTIONAL { ?period wlw:periodEnd ?end . }
-}
-LIMIT 1000`;
-
-        // ── Query 6: Combined — Policy, Spatial & Protocol ───────────────────────
-        const QUERY_6 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+        // ── Query 2: Combined — Policy, Spatial & Protocol — complex local ────────
+        const QUERY_2 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 
 SELECT ?obs ?scientificName ?speciesGroup ?policyStatus ?gridCell ?blurring ?protocolName
@@ -1065,37 +824,75 @@ WHERE {
     ?protocol wlw:protocolName ?protocolName .
   }
 }
-LIMIT 1000`;
+LIMIT 10`;
 
-        // ── Query 7: Grid Cells & Administrative Regions ─────────────────────────
-        const QUERY_7 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+        // ── Query 3: Bats (Chiroptera, Q176901) — Wikidata federation + geometry ─
+        const QUERY_3 = `PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wd:  <http://www.wikidata.org/entity/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?obs ?scientificName ?speciesGroup ?gridCell ?regionName
+SELECT ?commonNameNl ?date ?geometry
 WHERE {
-  ?obs a dwc:Occurrence, wlw:Observation ;
-       dwc:scientificName ?scientificName ;
-       wlw:observedSpecies ?species ;
-       wlw:hasObservationArea ?area .
-
-  ?species wlw:belongsToSpeciesGroup ?group .
-  ?group wlw:groupName ?speciesGroup .
-
-  OPTIONAL {
-    ?area wlw:intersectsGridCell ?cell .
-    ?cell wlw:gridCellID ?gridCell .
+  SERVICE <https://query.wikidata.org/sparql> {
+    SELECT ?taxon ?name ?commonNameEn ?commonNameZh ?commonNameKn WHERE {
+      ?taxon wdt:P171* wd:Q176901 ;
+             wdt:P225 ?name .
+      OPTIONAL { ?taxon rdfs:label ?commonNameEn . FILTER(LANG(?commonNameEn) = "en") }
+      OPTIONAL { ?taxon rdfs:label ?commonNameZh . FILTER(LANG(?commonNameZh) = "zh") }
+      OPTIONAL { ?taxon rdfs:label ?commonNameKn . FILTER(LANG(?commonNameKn) = "kn") }
+    }
   }
-
-  OPTIONAL {
-    ?area wlw:intersectsRegion ?region .
-    ?region wlw:regionName ?regionName .
-  }
+  ?uri a dwc:Occurrence ;
+       dwc:vernacularName ?commonNameNl ;
+       wlw:hasObservationArea/geo:hasGeometry/geo:asWKT ?geometry ;
+       dwc:eventDate ?date ;
+       dwc:scientificName ?name .
 }
-LIMIT 1000`;
+LIMIT 300`;
+
+        // ── Query 4: Owl Counts in Tubbergen — Wikidata + KKG federation ─────────
+        const QUERY_4 = `PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX wlw: <https://2526-ldsw-g9.github.io/Who-Lives-Where/data.ttl#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wd:  <http://www.wikidata.org/entity/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX imxgeo: <http://modellen.geostandaarden.nl/def/imx-geo#>
+
+SELECT ?commonNameEn (COUNT(?uri) AS ?count)
+WHERE {
+  # Fetch Tubbergen's boundary from Kadaster
+  SERVICE <https://data.kkg.kadaster.nl/service/sparql> {
+        ?municipality a imxgeo:Gemeentegebied ;
+                      imxgeo:naam "Tubbergen" ;
+                      geo:hasGeometry/geo:asWKT ?muniGeom .
+  }
+
+  # Filter for taxon names below Owl parent from Wikidata
+  SERVICE <https://query.wikidata.org/sparql> {
+    SELECT ?taxon ?name ?commonNameEn WHERE {
+      ?taxon wdt:P171* wd:Q25222 ;
+             wdt:P225 ?name .
+      OPTIONAL { ?taxon rdfs:label ?commonNameEn . FILTER(LANG(?commonNameEn) = "en") }
+    }
+  }
+
+  ?uri a dwc:Occurrence ;
+       dwc:vernacularName ?commonName ;
+       wlw:hasObservationArea/geo:hasGeometry/geo:asWKT ?geometry ;
+       dwc:scientificName ?name .
+
+  FILTER(geof:sfWithin(?geometry, ?muniGeom))
+}
+GROUP BY ?commonNameEn
+ORDER BY DESC(?count)`;
 
         // ── Init helper ──────────────────────────────────────────────────────────
         function initYasgui(containerId, query, defaultPlugin = "table") {
-            // Give each instance its own localStorage namespace
             localStorage.removeItem(containerId);
 
             const el = document.getElementById(containerId);
@@ -1124,13 +921,10 @@ LIMIT 1000`;
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            initYasgui('yasgui1', QUERY_1, "table");  // owls — table view (species list)
-            initYasgui('yasgui2', QUERY_2, "geo");    // bats  — map view (spatial distribution)
-            initYasgui('yasgui3', QUERY_3, "table");  // grid cell & blurring level
-            initYasgui('yasgui4', QUERY_4, "table");  // observation protocols
-            initYasgui('yasgui5', QUERY_5, "table");  // observation periods
-            initYasgui('yasgui6', QUERY_6, "table");  // combined — policy, spatial, protocol
-            initYasgui('yasgui7', QUERY_7, "table");  // grid cells & administrative regions
+            initYasgui('yasgui1', QUERY_1, "table");  // protocols — local only
+            initYasgui('yasgui2', QUERY_2, "table");  // combined — local only (complex)
+            initYasgui('yasgui3', QUERY_3, "geo");    // bats — Wikidata federation + map
+            initYasgui('yasgui4', QUERY_4, "table");  // owls in Tubbergen — Wikidata + KKG
         });
     </script>
 
